@@ -1,6 +1,6 @@
 #FuelPHP currency converter
 
-Currently work with OpenXChangeRates, Google, Yahoo
+Currently work with OpenXChangeRates.org, Google, Yahoo
 
 TODO: any other drivers?
 
