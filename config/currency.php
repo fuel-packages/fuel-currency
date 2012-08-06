@@ -52,7 +52,10 @@ return array(
             // %d - amount, 1st %s is currency from, and 2nd - currency to
 			'url' => 'http://www.google.com/ig/calculator?hl=en&q=%d%s=?%s',
 		),
-		// TODO Google, Yahoo ?
+		'yahoo' => array(
+            // %d - amount, 1st %s is currency from, and 2nd - currency to
+			'url' => 'http://download.finance.yahoo.com/d/quotes.csv?s=%s%s=X&f=sl1d1t1ba&e=.csv',
+		),
 	),
 
 );

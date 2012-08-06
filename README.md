@@ -1,8 +1,8 @@
 #FuelPHP currency converter
 
-Currently work with http://openexchangerates.org
-TODO: Google, Yahoo
+Currently work with OpenXChangeRates, Google, Yahoo
 
+TODO: any other drivers?
 
 Usage example:
     \Package::load('currency');
