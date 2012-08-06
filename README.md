@@ -19,7 +19,12 @@ Usage example:
     // $12.37
 
 
+    // to() method accepts formatter closure as 2nd argument, like:
+    echo \Currency::forge('google')->convert(110, 'USD')->to('eur', function($value) {return number_format($value, 4).' EUR/min';})
+    // 88.8961 EUR/min
+
 Config supports formatters, which work on to() currency, current config looks like:
+
 	'formatters' => array(
 		'eur' => function($value)
 		{

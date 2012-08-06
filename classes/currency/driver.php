@@ -123,21 +123,35 @@ abstract class Currency_Driver
 
 	/**
 	 * @param null $this
+     * $formatter custom format closure
 	 * @return Currency_Driver
 	 */
-	public function to($currency = null)
+	public function to($currency = null, $formatter = null)
 	{
-		$currency = $currency ?: \Config::get('currency.default_currency_to', 'usd');
-		$this->currency_to = $currency;
+        $currency = $currency ?: \Config::get('currency.default_currency_to', 'usd');
+        $this->currency_to = $currency;
+
+        /*
+         * Do not ping any driver if to/from currencies are the same
+         * */
+        if ($this->currency_to === $this->currency_from)
+        {
+            return $this->_format($this->amount, $formatter);
+        }
+
 		$result = $this->_validate();
 
-		return ($result) ? $this->_format($result, $currency) : $this;
+		return ($result) ? $this->_format($result, $formatter) : $this;
 	}
 
 	// _execute would return this formatted
-	protected function _format($value)
+	protected function _format($value, $formatter = null)
 	{
-		$formatter = $this->get_config('formatters.'.$this->currency_to);
+        // Allow passing of custom closures
+        if ($formatter === null)
+        {
+            $formatter = $this->get_config('formatters.'.$this->currency_to);
+        }
 
 		return ($formatter instanceof \Closure) ? $formatter($value) : number_format($value, 2);
 	}
