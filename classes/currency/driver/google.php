@@ -1,29 +1,65 @@
 <?php
 /**
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Flexible currency converter for FuelPHP
  *
- * @package    Fuel
+ * @package    Currency
  * @version    1.0
- * @author     Fuel Development Team
+ * @author     Jaroslav Petrusevic (huglester)
  * @license    MIT License
- * @copyright  2010 - 2012 Fuel Development Team
- * @link       http://fuelphp.com
+ * @copyright  2012 Jaroslav Petrusevic (huglester)
+ * @link       http://www.webas.lt
  */
 
 namespace Currency;
-
 
 class Currency_Driver_Google extends \Currency_Driver
 {
 
 	/**
-	 * Gets data from Openxchangerates site
+	 * Gets data from google calculator
 	 *
 	 * @return	bool	success boolean
 	 */
 	protected function _execute()
 	{
-		throw new \FuelException('Gogole not yet implemented');
-	}
+        $currency_from = strtoupper($this->currency_from);
+        $currency_to = strtoupper($this->currency_to);
+        $amount = $this->amount;
+
+        $url = sprintf($this->url, $amount, $currency_from, $currency_to);
+
+        try
+        {
+            $request = \Request::forge($url, 'curl')->execute();
+        }
+        catch (\Exception $e)
+        {
+            throw new \FuelException('_execute() error in driver : '.$this->config['driver']. '. Error message returned: '.$e->getMessage());
+        }
+
+        if ($request and $request->response()->status === 200 and $request->response()->body())
+        {
+            $response = $request->response()->body();
+
+            $search = array('lhs',    'rhs',   'error',   'icc');
+            $replace = array('"lhs"', '"rhs"', '"error"', '"icc"');
+
+            $response = str_replace($search, $replace, $response);
+
+            $return = json_decode($response);
+            if (empty($return->error))
+            {
+                $result = (float) $return->rhs;
+
+                return $result;
+            }
+        }
+        else
+        {
+            throw new \FuelException('Got invalid status/body from '.$this->config['driver']);
+        }
+
+        return false;
+    }
 
 }

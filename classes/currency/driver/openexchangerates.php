@@ -1,17 +1,16 @@
 <?php
 /**
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Flexible currency converter for FuelPHP
  *
- * @package    Fuel
+ * @package    Currency
  * @version    1.0
- * @author     Fuel Development Team
+ * @author     Jaroslav Petrusevic (huglester)
  * @license    MIT License
- * @copyright  2010 - 2012 Fuel Development Team
- * @link       http://fuelphp.com
+ * @copyright  2012 Jaroslav Petrusevic (huglester)
+ * @link       http://www.webas.lt
  */
 
 namespace Currency;
-
 
 class Currency_Driver_Openexchangerates extends \Currency_Driver
 {
@@ -31,10 +30,14 @@ class Currency_Driver_Openexchangerates extends \Currency_Driver
 			throw new \FuelException('_execute() error in driver : '.$this->config['driver']. '. app_id not set.');
 		}
 
+        $cache_found = false;
+        $response = null;
+
 		// try to retrieve the cache
 		try
 		{
-			$request = \Cache::get('currency_openexchangerates');
+			$response = \Cache::get('currency_openexchangerates');
+            $cache_found = true;
 		}
 		catch (\CacheNotFoundException $e)
 		{
@@ -43,7 +46,6 @@ class Currency_Driver_Openexchangerates extends \Currency_Driver
 				$url = $this->url.'?app_id='.$app_id;
 
 				$request = \Request::forge($url, 'curl')->execute();
-				\Cache::set('currency_openexchangerates', $request, $this->get_config('currency.cache', 1800));
 			}
 			catch (\Exception $e)
 			{
@@ -51,9 +53,22 @@ class Currency_Driver_Openexchangerates extends \Currency_Driver
 			}
 		}
 
-		if ($request and $request->response()->status === 200 and $request->response()->body())
+		if ($response or $request)
 		{
-			$return = json_decode($request->response()->body());
+            if ( ! $cache_found)
+            {
+                if ($request->response()->status === 200 and $request->response()->body())
+                {
+                    $response = $request->response()->body();
+                    \Cache::set('currency_openexchangerates', $response, $this->get_config('currency.cache', 1800));
+                }
+                else
+                {
+                    throw new \FuelException('Got invalid status/body from '.$this->config['driver']);
+                }
+            }
+
+			$return = json_decode($response);
 
 			$currency_from = strtoupper($this->currency_from);
 			$currency_to = strtoupper($this->currency_to);

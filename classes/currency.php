@@ -1,17 +1,16 @@
 <?php
 /**
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Flexible currency converter for FuelPHP
  *
- * @package    Fuel
+ * @package    Currency
  * @version    1.0
- * @author     Fuel Development Team
+ * @author     Jaroslav Petrusevic (huglester)
  * @license    MIT License
- * @copyright  2010 - 2012 Fuel Development Team
- * @link       http://fuelphp.com
+ * @copyright  2012 Jaroslav Petrusevic (huglester)
+ * @link       http://www.webas.lt
  */
 
 namespace Currency;
-
 
 class Currency
 {

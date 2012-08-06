@@ -48,6 +48,10 @@ return array(
 			'app_id' => 'cdea87da3e8e46a5951857a5f44712b1',
 			'currency_base' => 'usd', // openexchangerates.org has all ratios based on USD
 		),
+		'google' => array(
+            // %d - amount, 1st %s is currency from, and 2nd - currency to
+			'url' => 'http://www.google.com/ig/calculator?hl=en&q=%d%s=?%s',
+		),
 		// TODO Google, Yahoo ?
 	),
 
