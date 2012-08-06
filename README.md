@@ -5,12 +5,12 @@ TODO: Google, Yahoo
 
 
 Usage example:
-        \Package::load('currency');
+    \Package::load('currency');
 
-		echo \Currency::forge()->convert(10, 'usd')->to('ltl');
-		// LT 27.92
-		echo \Currency::forge()->convert(10, 'eur')->to('usd');
-		// $12.36
+    echo \Currency::forge()->convert(100, 'usd')->to('eur');
+    // €80,88
+    echo \Currency::forge()->convert(10, 'eur')->to('usd');
+    // $12.36
 
 
 Config supports formatters, which work on to() currency, current config looks like:

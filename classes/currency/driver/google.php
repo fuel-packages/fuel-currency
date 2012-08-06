@@ -23,7 +23,6 @@ class Currency_Driver_Google extends \Currency_Driver
 	 */
 	protected function _execute()
 	{
-
 		throw new \FuelException('Gogole not yet implemented');
 	}
 
