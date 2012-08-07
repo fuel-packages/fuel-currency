@@ -16,7 +16,7 @@ class Currency_Driver_Google extends \Currency_Driver
 {
 
 	/**
-	 * Gets data from google calculator
+	 * Gets data from Google calculator
 	 *
 	 * @return	bool	success boolean
 	 */

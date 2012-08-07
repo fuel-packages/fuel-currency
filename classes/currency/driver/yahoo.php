@@ -16,7 +16,7 @@ class Currency_Driver_Yahoo extends \Currency_Driver
 {
 
 	/**
-	 * Gets data from google calculator
+	 * Gets data from Yahoo finance
 	 *
 	 * @return	bool	success boolean
 	 */
@@ -39,9 +39,7 @@ class Currency_Driver_Yahoo extends \Currency_Driver
 
         if ($request and $request->response()->status === 200 and $request->response()->body())
         {
-            $response = $request->response()->body();
-
-            $array = explode(',', $response);
+            $array = explode(',', $request->response()->body());
 
             if ($array and isset($array[1]))
             {
