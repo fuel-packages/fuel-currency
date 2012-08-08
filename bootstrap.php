@@ -21,4 +21,6 @@ Autoloader::add_classes(array(
 	'Currency\\Currency_Driver_Openexchangerates'	=> __DIR__.'/classes/currency/driver/openexchangerates.php',
 	'Currency\\Currency_Driver_Google'				=> __DIR__.'/classes/currency/driver/google.php',
 	'Currency\\Currency_Driver_Yahoo'				=> __DIR__.'/classes/currency/driver/yahoo.php',
+    	'Currency\\Currency_Driver_Json'				=> __DIR__.'/classes/currency/driver/json.php',
+    
 ));
