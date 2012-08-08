@@ -1,6 +1,6 @@
 #FuelPHP currency converter
 
-Currently work with OpenXChangeRates.org, Google, Yahoo
+Currently work with OpenXChangeRates.org, Google, Yahoo and custom JSON feed
 
 TODO: any other drivers?
 
@@ -34,3 +34,37 @@ Config supports formatters, config looks like:
 			return '$'.number_format($value, 2, '.', ',');
 		},
 	),
+
+JSON
+----
+
+To use your own JSON data, here is the config:
+
+    'json' => array(
+        /**
+        * URL to your json data
+        */
+        'url' => 'https://dl.dropbox.com/u/135243/fxrates.json',
+        /**
+        * A function to get the exchange rate from your json data. 
+        */
+        'walker' => function ($currency, $jsondata) {
+            return $jsondata->$currency->mid;
+        },
+        /**
+        * The base currency used 
+        */
+        'base' => 'usd',
+        /**
+        * The currencies in your json data
+        */
+        'currencies' => array(
+            'usd', 'eur', 'gbp', 'chf',
+            'jpy', 'aud', 'cad', 'cny',
+            'inr', 'nzd', 'rub', 'zar',
+            'hkd', 'dkk', 'sek', 'nok'
+        )
+    )
+
+The walker function is used to find the currency rate from your JSON data. Everything else is straight forward.
+
