@@ -71,8 +71,8 @@ return array(
                 'usd', 'eur', 'gbp', 'chf',
                 'jpy', 'aud', 'cad', 'cny',
                 'inr', 'nzd', 'rub', 'zar',
-                'hkd', 'dkk', 'sek', 'nok'
-            )
-        )
+                'hkd', 'dkk', 'sek', 'nok',
+            ),
+        ),
     ),
 );

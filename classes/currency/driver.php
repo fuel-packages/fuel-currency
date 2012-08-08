@@ -150,7 +150,7 @@ abstract class Currency_Driver
         // Allow passing of custom closures
         if ($formatter === null)
         {
-            $formatter = $this->get_config('formatters.'.$this->currency_to);
+            $formatter = $this->get_config('formatters.'.strtolower($this->currency_to));
         }
 
 		return ($formatter instanceof \Closure) ? $formatter($value) : number_format($value, 2);

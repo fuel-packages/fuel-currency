@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Flexible currency converter for FuelPHP
  *
@@ -21,7 +20,8 @@ class Currency_Driver_Json extends \Currency_Driver {
      *
      * @return	bool	success boolean
      */
-    protected function _execute() {
+    protected function _execute()
+    {
         $currency_from = strtolower($this->currency_from);
         $currency_to = strtolower($this->currency_to);
         $amount = $this->amount;
@@ -33,12 +33,14 @@ class Currency_Driver_Json extends \Currency_Driver {
             throw new \FuelException('_execute() error in driver : ' . $this->config['driver'] . '. Error message returned: ' . $e->getMessage());
         }
 
-        if ($request and $request->response()->status === 200 and $request->response()->body()) {
-            $response = $request->response()->body();
-            $jsondata = json_decode($response);
+        if ($request and $request->response()->status === 200 and $request->response()->body())
+        {
+            $jsondata = json_decode($request->response()->body());
 
             return $this->_convert($amount, $currency_from, $currency_to, $jsondata);
-        } else {
+        }
+        else
+        {
             throw new \FuelException('Got invalid status/body from ' . $this->config['driver']);
         }
 
@@ -55,22 +57,27 @@ class Currency_Driver_Json extends \Currency_Driver {
      * @return float The converted amount
      * @throws \FuelException 
      */
-    private function _convert($amount, $currency_from, $currency_to, $jsondata) {
+    private function _convert($amount, $currency_from, $currency_to, $jsondata)
+    {
         $base = $this->get_config('drivers.' . $this->config['driver'] . '.base');
         $currencies = $this->get_config('drivers.' . $this->config['driver'] . '.currencies');
 
-        if (!in_array($base, $currencies)) {
+        if ( ! in_array($base, $currencies))
+        {
             throw new \FuelException('base is set to a currency that is not available.');
         }
-        if (!in_array($currency_from, $currencies)) {
+        if ( ! in_array($currency_from, $currencies))
+        {
             throw new \FuelException('from_currency is set to a currency that is not available.');
         }
-        if (!in_array($currency_to, $currencies)) {
+        if ( ! in_array($currency_to, $currencies))
+        {
             throw new \FuelException('currency_to is set to a currency that is not available.');
         }
 
         $walker = $this->get_config('drivers.' . $this->config['driver'] . '.walker');
-        if (!($walker instanceof \Closure)) {
+        if ( ! ($walker instanceof \Closure))
+        {
             throw new \FuelException('_execute() error in driver : ' . $this->config['driver'] . '. The Json walker function could not be found.');
         }
 
@@ -81,6 +88,7 @@ class Currency_Driver_Json extends \Currency_Driver {
 
         if ($currency_to == $base)
             return $base_currency_amount;
+
         return $base_currency_amount * $walker($currency_to, $jsondata);
     }
 
